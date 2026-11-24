@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import AuthShell from "../components/AuthShell";
+import { useAuth } from "../auth/AuthContext.jsx";
+import AuthShell from "../auth/AuthShell.jsx";
 import GoogleButtons from "../components/GoogleButtons";
 
 export default function Login() {

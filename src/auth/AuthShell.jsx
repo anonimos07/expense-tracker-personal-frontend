@@ -1,4 +1,3 @@
-// Shared layout for login + register: a receipt-style panel on the left, form on the right
 const rows = [
   ["Groceries", "- 48.20"],
   ["Jeepney fare", "- 1.10"],
@@ -12,21 +11,21 @@ export default function AuthShell({ title, subtitle, children }) {
     <main className="auth">
       <aside className="auth__receipt" aria-hidden="true">
         <div className="receipt">
-          <p className="receipt__head">Expense Tracker</p>
-          <ul>
+          {/* <p className="receipt__head">Expense Tracker</p> */}
+          {/* <ul>
             {rows.map(([label, amount]) => (
               <li key={label}>
                 <span>{label}</span>
                 <span className={amount.startsWith("+") ? "in" : ""}>{amount}</span>
               </li>
             ))}
-          </ul>
-          <p className="receipt__total">
+          </ul> */}
+          {/* <p className="receipt__total">
             <span>Balance</span>
             <span>304.95</span>
-          </p>
+          </p> */}
         </div>
-        <p className="auth__tagline">Know where every peso goes.</p>
+        {/* <p className="auth__tagline">Know where every peso goes.</p> */}
       </aside>
 
       <section className="auth__panel">

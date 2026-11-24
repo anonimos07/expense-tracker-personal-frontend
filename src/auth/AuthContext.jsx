@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import api from "../api/axios";
+import api from "./Axios.jsx";
 
 const AuthContext = createContext(null);
 
@@ -22,8 +22,8 @@ export function AuthProvider({ children }) {
     setUser(user);
   };
 
-  const login = async (username, password) => {
-    const { data } = await api.post("/login", { username, password });
+  const login = async (email, password) => {
+    const { data } = await api.post("/login", { email, password });
     saveSession(data);
   };
 
@@ -36,7 +36,6 @@ export function AuthProvider({ children }) {
     try {
       await api.post("/logout");
     } catch {
-      /* token may already be invalid; clear locally anyway */
     }
     localStorage.removeItem("token");
     localStorage.removeItem("user");

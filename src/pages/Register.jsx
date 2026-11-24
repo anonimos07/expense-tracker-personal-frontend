@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import AuthShell from "../components/AuthShell";
+import { useAuth } from "../auth/AuthContext.jsx";
+import AuthShell from "../auth/AuthShell.jsx";
 import GoogleButtons from "../components/GoogleButtons";
 
 export default function Register() {
@@ -9,7 +9,6 @@ export default function Register() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
-    username: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -41,7 +40,6 @@ export default function Register() {
 
   const fields = [
     ["name", "Full name", "text", "name"],
-    ["username", "Username", "text", "username"],
     ["email", "Email", "email", "email"],
     ["password", "Password", "password", "new-password"],
     ["password_confirmation", "Confirm password", "password", "new-password"],
