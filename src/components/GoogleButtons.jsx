@@ -1,4 +1,8 @@
-// Static button: no handler yet. Wire up Google OAuth (e.g. Laravel Socialite) later.
+import { useState } from "react";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+const BACKEND_URL = API_URL.replace(/\/api\/?$/, "");
+
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
     <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.5 17.7 9.5 24 9.5z"/>
@@ -9,10 +13,23 @@ const GoogleIcon = () => (
 );
 
 export default function GoogleButtons({ label = "Log in with Gmail" }) {
+  const [redirecting, setRedirecting] = useState(false);
+
+  const handleClick = () => {
+    setRedirecting(true);
+    // Full page navigation: Google login can't run inside an AJAX call
+    window.location.href = `${BACKEND_URL}/auth/google/redirect`;
+  };
+
   return (
-    <button type="button" className="btn btn--google">
+    <button
+      type="button"
+      className="btn btn--google"
+      onClick={handleClick}
+      disabled={redirecting}
+    >
       <GoogleIcon />
-      {label}
+      {redirecting ? "Redirecting..." : label}
     </button>
   );
 }

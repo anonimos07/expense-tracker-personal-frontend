@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation  } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
 import AuthShell from "../auth/AuthShell.jsx";
 import GoogleButtons from "../components/GoogleButtons";
+import { OAUTH_ERRORS } from "../auth/oauthmessage";
 
 export default function Register() {
+  const location = useLocation();
+  const oauthError = location.state?.oauthError;
   const { register } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -16,6 +19,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -44,6 +48,12 @@ export default function Register() {
     ["password", "Password", "password", "new-password"],
     ["password_confirmation", "Confirm password", "password", "new-password"],
   ];
+
+    {oauthError && (
+    <div className="alert alert--error" role="alert">
+      {OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.google_failed}
+    </div>
+  )}
 
   return (
     <AuthShell title="Create your account" subtitle="Start tracking in under a minute.">

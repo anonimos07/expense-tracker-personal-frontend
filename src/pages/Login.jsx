@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation  } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
 import AuthShell from "../auth/AuthShell.jsx";
 import GoogleButtons from "../components/GoogleButtons";
+import { OAUTH_ERRORS } from "../auth/oauthmessage";
 
 export default function Login() {
   const { login } = useAuth();
@@ -11,6 +12,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const oauthError = location.state?.oauthError; 
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -33,6 +36,11 @@ export default function Login() {
     }
   };
 
+    {oauthError && (
+      <div className="alert alert--error" role="alert">
+        {OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.google_failed}
+      </div>
+    )}
   return (
     <AuthShell title="Welcome back" subtitle="Log in to see your expenses.">
       <form onSubmit={onSubmit} noValidate>
@@ -71,7 +79,6 @@ export default function Login() {
       <div className="divider"><span>or</span></div>
 
       <GoogleButtons label="Log in with Gmail" />
-      <GoogleButtons label="Sign up with Gmail" />
 
       <p className="auth__switch">
         New here?{" "}

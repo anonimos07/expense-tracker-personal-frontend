@@ -32,6 +32,16 @@ export function AuthProvider({ children }) {
     saveSession(data);
   };
 
+  // Used by the Google OAuth callback: the backend gives us a token,
+  // we fetch the user with it, then save the session like a normal login.
+  const loginWithToken = async (newToken) => {
+    const { data } = await api.get("/user", {
+      headers: { Authorization: `Bearer ${newToken}` },
+    });
+    saveSession({ user: data, token: newToken });
+    return data;
+  };
+
   const logout = async () => {
     try {
       await api.post("/logout");
@@ -44,7 +54,9 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, login, register, loginWithToken, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
